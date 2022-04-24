@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BANK CONNECT</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="transaction_list">TRANSACTIONS LIST</string>
+    <string name="users_list">USERS LIST</string>
+</resources>
