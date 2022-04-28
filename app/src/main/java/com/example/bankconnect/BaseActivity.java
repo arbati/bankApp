@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,7 +48,12 @@ public class BaseActivity extends AppCompatActivity {
                 break;
 
             case R.id.menuLogout:
+
                 Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPreferences = getSharedPreferences("user",MODE_PRIVATE);
+                sharedPreferences.edit().putString("login","default").commit();
+                sharedPreferences.edit().putString("password","default").commit();
+
                 finishAffinity();
                 break;
         }
