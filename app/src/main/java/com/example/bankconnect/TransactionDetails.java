@@ -23,7 +23,9 @@ public class TransactionDetails extends BaseActivity {
         setContentView(R.layout.activity_transaction_details);
 
         Intent intent = getIntent();
-        Transaction transaction = intent.getParcelableExtra("transaction");
+        Integer id = intent.getIntExtra("transaction",0);
+
+        Transaction transaction = new TransactionDbHelper(TransactionDetails.this).findById(id);
 
         txtIconTrs = findViewById(R.id.txtIconTrs);
         txtLabelTrs = findViewById(R.id.txtLabelTrs);
