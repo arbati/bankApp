@@ -1,21 +1,13 @@
 package com.example.bankconnect;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -30,7 +22,6 @@ import com.example.bankconnect.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class TransactionList extends BaseActivity {
 
@@ -38,6 +29,7 @@ public class TransactionList extends BaseActivity {
     private ListView listViewTransaction;
     private FloatingActionButton faMessage;
     private FloatingActionButton faMap;
+    TransactionDbHelper db;
 
     ActivityMainBinding binding;
 
@@ -45,15 +37,13 @@ public class TransactionList extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //binding = ActivityMainBinding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot());
-
         setContentView(R.layout.activity_transaction_list);
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.MESSAGE_EMAIL);
 
-        //textEmail = (TextView) findViewById(R.id.textViewEmail);
-        //textEmail.setText(message);
+         db = new TransactionDbHelper(TransactionList.this);
+        // addList();
+
 
         faMessage = findViewById(R.id.floatingActionMessage);
         faMessage.setOnClickListener(messageClick);
@@ -67,7 +57,6 @@ public class TransactionList extends BaseActivity {
         listViewTransaction.setOnItemClickListener(onItemClickListener);
 
 
-
     }
 
 
@@ -75,27 +64,34 @@ public class TransactionList extends BaseActivity {
     public ArrayList<Transaction> transactionsList(){
 
         ArrayList<Transaction> list= new ArrayList<Transaction>();
-
-        Transaction t1 = new Transaction(R.drawable.tmoney,"Virement","5000","10-02-2023","4124815454","V120",6000);
-        list.add(t1);
-
-        Transaction t2 = new Transaction(R.drawable.tcheque,"Encaissement d'un chèque","8500","10-02-2023","41248985454","V220",6700);
-        list.add(t2);
-
-        Transaction t3 = new Transaction(R.drawable.tonline,"Paiement en ligne","800","13-02-2023","89548985454","V230",5700);
-        list.add(t3);
-
-        Transaction t4 = new Transaction(R.drawable.tonline,"Virement","800","13-02-2023","89548985454","V230",5700);
-        list.add(t4);
-
-        Transaction t5 = new Transaction(R.drawable.tonline,"virsement","800","13-02-2023","89548985454","V230",5700);
-        list.add(t5);
-
-        Transaction t6 = new Transaction(R.drawable.tonline,"Virement en ligne","800","13-02-2023","89548985454","V230",5700);
-        list.add(t6);
-
-        return list;
+        return db.getAll();
     }
+
+
+
+    public void addList(){
+
+        Transaction t1 = new Transaction(R.drawable.tmoney,"Virement","5000","10-02-2023","4124815454","V120","6000");
+         db.add(t1);
+
+        Transaction t2 = new Transaction(R.drawable.tcheque,"Encaissement d'un chèque","8500","10-02-2023","41248985454","V220","6700");
+        db.add(t2);
+
+        Transaction t3 = new Transaction(R.drawable.tonline,"Paiement en ligne","800","13-02-2023","89548985454","V230","5700");
+        db.add(t3);
+
+        Transaction t4 = new Transaction(R.drawable.tonline,"Virement","800","13-02-2023","89548985454","V230","5700");
+        db.add(t4);
+
+        Transaction t5 = new Transaction(R.drawable.tonline,"virsement","800","13-02-2023","89548985454","V230","5700");
+        db.add(t5);
+
+        Transaction t6 = new Transaction(R.drawable.tonline,"Virement en ligne","800","13-02-2023","89548985454","V230","5700");
+        db.add(t6);
+
+
+    }
+
 
 
 
@@ -106,7 +102,7 @@ public class TransactionList extends BaseActivity {
             Transaction trs = (Transaction) adapterView.getItemAtPosition(i);
 
             Intent intent = new Intent(getApplicationContext(),TransactionDetails.class);
-            intent.putExtra("transaction", trs);
+            intent.putExtra("transaction", trs.getId());
             startActivity(intent);
 
         }
