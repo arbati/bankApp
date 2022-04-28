@@ -176,8 +176,6 @@ public class TransactionList extends BaseActivity {
                     }
 
 
-
-
                 }else {
 
                     Toast.makeText(TransactionList.this,"Please type a message",Toast.LENGTH_SHORT).show();
